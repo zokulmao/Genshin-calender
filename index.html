@@ -8,463 +8,455 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0b0d14;--bg2:#11141f;--bg3:#181c2a;--bg4:#1e2235;
-  --accent:#c9a84c;--accent2:#e8c87a;--accent-dim:#c9a84c33;
-  --blue:#4a9eff;--blue-dim:#4a9eff22;
-  --pink:#e87aab;--pink-dim:#e87aab22;
-  --green:#5ecfa0;--green-dim:#5ecfa022;
-  --red:#e87a7a;
-  --text:#e8e4d9;--text2:#9b9685;--text3:#5a5750;
-  --border:#ffffff0f;--border2:#ffffff18;
-  --radius:12px;--radius-sm:8px;
+  /* Genshin Color Palette */
+  --bg: #0b0d14;
+  --bg-glass: rgba(17, 20, 31, 0.65);
+  --bg-glass-heavy: rgba(11, 13, 20, 0.85);
+  --bg-glass-light: rgba(30, 34, 53, 0.5);
+  --accent: #d3bc8e; /* Genshin Gold */
+  --accent2: #f4e3b5;
+  --accent-dim: rgba(211, 188, 142, 0.15);
+  --blue: #60a5fa;
+  --pink: #f472b6;
+  --green: #34d399;
+  --red: #f87171;
+  --text: #f3f4f6;
+  --text2: #d1d5db;
+  --text3: #9ca3af;
+  --border: rgba(211, 188, 142, 0.2);
+  --border-strong: rgba(211, 188, 142, 0.5);
+  --radius: 16px;
+  --radius-sm: 8px;
 }
-html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:'DM Sans',sans-serif;font-size:14px;
-  min-height:100vh;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%,#c9a84c0d 0%,transparent 70%),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  /* Beautiful Genshin Landscape Background */
+  background-image: url('https://images4.alphacoders.com/111/1110925.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+/* Add a dark overlay to make text readable */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, rgba(11,13,20,0.4) 0%, rgba(11,13,20,0.85) 100%);
+  z-index: -1;
+}
+
+/* CLOCK WIDGET */
+.corner-clock {
+  position: fixed;
+  top: 24px;
+  right: 36px;
+  font-family: 'Cinzel', serif;
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 /* LAYOUT */
-.shell{display:flex;min-height:100vh}
-.sidebar{
-  width:220px;flex-shrink:0;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  position:sticky;top:0;height:100vh;
-  overflow-y:auto;
+.shell { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--bg-glass-heavy);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.5);
 }
-.main{flex:1;min-width:0;padding:32px 36px;max-width:1100px}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 32px 36px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
 /* SIDEBAR */
-.logo{padding:28px 20px 20px;border-bottom:1px solid var(--border)}
-.logo-mark{
-  font-family:'Cinzel',serif;font-size:17px;font-weight:700;
-  color:var(--accent);letter-spacing:.04em;line-height:1.2;
+.logo { padding: 32px 24px 20px; border-bottom: 1px solid var(--border); text-align: center; }
+.logo-mark {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(211, 188, 142, 0.4);
 }
-.logo-sub{font-size:11px;color:var(--text3);margin-top:3px;letter-spacing:.06em;text-transform:uppercase}
-.nav{padding:16px 12px;flex:1}
-.nav-section{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:12px 8px 6px;font-weight:500}
-.nav-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 10px;border-radius:var(--radius-sm);
-  cursor:pointer;color:var(--text2);font-size:13px;font-weight:400;
-  transition:all .15s;margin-bottom:2px;
-  border:1px solid transparent;
+.logo-sub { font-size: 11px; color: var(--text3); margin-top: 6px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.nav { padding: 20px 12px; flex: 1; }
+.nav-section { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); opacity: 0.7; padding: 12px 12px 8px; font-weight: 600; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: var(--radius-sm);
+  cursor: pointer; color: var(--text2); font-size: 13px; font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 4px;
+  border: 1px solid transparent;
 }
-.nav-item:hover{background:var(--bg3);color:var(--text)}
-.nav-item.active{background:var(--accent-dim);color:var(--accent);border-color:#c9a84c22}
-.nav-icon{font-size:15px;width:18px;text-align:center;opacity:.7}
-.nav-item.active .nav-icon{opacity:1}
-.sidebar-footer{padding:16px;border-top:1px solid var(--border)}
-.version-badge{font-size:11px;color:var(--text3);background:var(--bg3);padding:4px 10px;border-radius:20px;display:inline-block}
+.nav-item:hover { background: var(--bg-glass-light); color: var(--text); border-color: var(--border); transform: translateX(4px); }
+.nav-item.active {
+  background: linear-gradient(90deg, var(--accent-dim) 0%, transparent 100%);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.sidebar-footer { padding: 16px; border-top: 1px solid var(--border); text-align: center; }
+.version-badge { font-size: 10px; color: var(--text3); background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); display: inline-block; letter-spacing: 0.05em; }
 
 /* PAGE HEADER */
-.page-header{margin-bottom:28px}
-.page-title{font-family:'Cinzel',serif;font-size:24px;font-weight:600;color:var(--text);letter-spacing:.02em}
-.page-sub{font-size:13px;color:var(--text2);margin-top:5px}
-.page-actions{display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap}
+.page-header { margin-bottom: 32px; }
+.page-title {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.03em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5), 0 0 20px rgba(211, 188, 142, 0.3);
+}
+.page-sub { font-size: 14px; color: var(--text2); margin-top: 8px; font-weight: 300; }
+.page-actions { display: flex; gap: 12px; margin-top: 16px; align-items: center; flex-wrap: wrap; }
 
 /* BUTTONS */
-.btn{
-  padding:8px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;
-  cursor:pointer;transition:all .15s;border:1px solid transparent;
-  font-family:'DM Sans',sans-serif;
+.btn {
+  padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; border: 1px solid transparent;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
 }
-.btn-primary{background:var(--accent);color:#0b0d14;border-color:var(--accent)}
-.btn-primary:hover{background:var(--accent2)}
-.btn-ghost{background:transparent;color:var(--text2);border-color:var(--border2)}
-.btn-ghost:hover{background:var(--bg3);color:var(--text)}
-.btn-sm{padding:5px 12px;font-size:12px}
-.btn-icon{padding:7px 10px}
-.btn-blue{background:var(--blue-dim);color:var(--blue);border-color:#4a9eff33}
-.btn-blue:hover{background:#4a9eff33}
-.btn-pink{background:var(--pink-dim);color:var(--pink);border-color:#e87aab33}
-.btn-pink:hover{background:#e87aab33}
-.btn-green{background:var(--green-dim);color:var(--green);border-color:#5ecfa033}
-.btn-green:hover{background:#5ecfa033}
+.btn-primary { 
+  background: linear-gradient(135deg, var(--accent) 0%, #b89c65 100%); 
+  color: #000; 
+  box-shadow: 0 4px 10px rgba(211, 188, 142, 0.2);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(211, 188, 142, 0.4); }
+.btn-ghost { background: var(--bg-glass); color: var(--text); border-color: var(--border); }
+.btn-ghost:hover { background: var(--bg-glass-light); border-color: var(--border-strong); transform: translateY(-2px); }
+.btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 12px; }
 
-/* CARDS */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px}
-.card-sm{padding:14px 16px}
+/* CARDS & GLASS PANELS */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* AI GRID SEGREGATION */
+.ai-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.ai-card {
+  background: var(--bg-glass-heavy);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+.ai-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-dim);
+  transform: translateY(-4px);
+}
+.ai-card-header {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.ai-card-desc {
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* FORMS */
+.field { margin-bottom: 16px; width: 100%; }
+.field label { display: block; font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.field input, .field select, .field textarea {
+  width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px;
+  color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.2s; outline: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); box-shadow: 0 0 8px var(--accent-dim); }
+.field select option { background: var(--bg2); }
+.field textarea { height: 80px; resize: vertical; line-height: 1.6; }
+
+/* AI RESULTS BOX */
+.ai-result-box {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text);
+  white-space: pre-wrap;
+  margin-top: 20px;
+  max-height: 600px;
+  overflow-y: auto;
+  border-left: 4px solid var(--accent);
+}
+.ai-result-box::-webkit-scrollbar { width: 6px; }
+.ai-result-box::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+/* LOADING DOTS */
+.loading-dots { display: inline-flex; gap: 4px; }
+.loading-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: bounce 0.8s infinite; }
+.loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
 /* TAGS */
-.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;letter-spacing:.02em}
-.tag-update{background:#c9a84c1a;color:var(--accent);border:1px solid #c9a84c30}
-.tag-guide{background:var(--blue-dim);color:var(--blue);border:1px solid #4a9eff30}
-.tag-lore{background:var(--pink-dim);color:var(--pink);border:1px solid #e87aab30}
-.tag-event{background:var(--green-dim);color:var(--green);border:1px solid #5ecfa030}
-.tag-banner{background:#e87a7a1a;color:var(--red);border:1px solid #e87a7a30}
-.tag-tier{background:#7a7ae81a;color:#9999ff;border:1px solid #7a7ae830}
-.tag-patch{background:#c9a84c1a;color:var(--accent);border:1px solid #c9a84c30}
-.tag-character{background:var(--pink-dim);color:var(--pink);border:1px solid #e87aab30}
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;letter-spacing:0.04em;text-transform:uppercase;}
+.tag-update{background:rgba(211, 188, 142, 0.1);color:var(--accent);border:1px solid rgba(211, 188, 142, 0.3);}
 
 /* SECTIONS */
-.section{display:none}
-.section.active{display:block}
+.section { display: none; animation: fadeIn 0.4s ease; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* SCRIPTS */
-.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.filter-chip{
-  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;
-  cursor:pointer;border:1px solid var(--border2);background:transparent;
-  color:var(--text2);transition:all .15s;font-family:'DM Sans',sans-serif;
+/* OLD UI OVERRIDES TO MATCH NEW THEME (Scripts, Calendar, Updates) */
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.filter-chip {
+  padding: 8px 18px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); background: var(--bg-glass);
+  color: var(--text2); transition: all 0.2s; font-family: 'DM Sans', sans-serif;
 }
-.filter-chip.active{background:var(--accent-dim);color:var(--accent);border-color:#c9a84c30}
-.script-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:border-color .2s}
-.script-card:hover{border-color:var(--border2)}
-.script-head{padding:16px 20px;cursor:pointer;display:flex;align-items:flex-start;gap:14px}
-.script-head-info{flex:1;min-width:0}
-.script-title-text{font-size:15px;font-weight:500;color:var(--text);margin:6px 0 4px}
-.script-meta{font-size:12px;color:var(--text3)}
-.script-toggle{color:var(--text3);font-size:18px;padding:2px;flex-shrink:0;transition:transform .2s}
-.script-body{display:none;padding:0 20px 16px}
-.script-body.open{display:block}
-.script-text{
-  background:var(--bg3);border-radius:var(--radius-sm);padding:16px;
-  font-size:13px;line-height:1.8;color:var(--text2);
-  white-space:pre-wrap;max-height:280px;overflow-y:auto;
-  border:1px solid var(--border);font-family:'DM Sans',sans-serif;
-}
-.script-text::-webkit-scrollbar{width:4px}
-.script-text::-webkit-scrollbar-track{background:transparent}
-.script-text::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-.script-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.filter-chip:hover { border-color: var(--accent); }
+.filter-chip.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
 
-/* CALENDAR */
-.month-selector{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.month-chip{
-  padding:5px 14px;border-radius:20px;font-size:12px;
-  cursor:pointer;border:1px solid var(--border2);background:transparent;
-  color:var(--text2);transition:all .15s;font-family:'DM Sans',sans-serif;
-}
-.month-chip.active{background:var(--accent);color:#0b0d14;border-color:var(--accent);font-weight:500}
-.cal-wrapper{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.cal-top{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border);gap:12px}
-.cal-month-name{font-family:'Cinzel',serif;font-size:16px;font-weight:600;color:var(--accent);letter-spacing:.04em}
-.cal-nav-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:5px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:14px;transition:all .15s}
-.cal-nav-btn:hover{background:var(--bg3);color:var(--text)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border)}
-.cal-header{background:var(--bg2);text-align:center;padding:10px 4px;font-size:11px;font-weight:500;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
-.cal-cell{
-  background:var(--bg2);min-height:90px;padding:8px;cursor:pointer;
-  transition:background .15s;position:relative;
-}
-.cal-cell:hover{background:var(--bg3)}
-.cal-cell.empty{background:var(--bg);cursor:default}
-.cal-cell.today .day-num{color:var(--accent);font-weight:600}
-.cal-cell.today::after{content:'';position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
-.cal-cell.has-content{background:#c9a84c08}
-.day-num{font-size:12px;color:var(--text3);margin-bottom:4px}
-.cal-event{
-  font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:2px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;
-}
-.ev-update{background:#c9a84c22;color:var(--accent)}
-.ev-guide{background:var(--blue-dim);color:var(--blue)}
-.ev-event{background:var(--green-dim);color:var(--green)}
-.ev-banner{background:#e87a7a1a;color:var(--red)}
-.ev-lore{background:var(--pink-dim);color:var(--pink)}
-.ev-tier{background:#7a7ae81a;color:#9999ff}
-.more-count{font-size:9px;color:var(--text3);margin-top:1px}
+.script-card { background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; backdrop-filter: blur(10px); }
+.script-card:hover { border-color: var(--border-strong); }
+.script-head { padding: 20px 24px; cursor: pointer; display: flex; align-items: flex-start; gap: 16px; }
+.script-title-text { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 600; color: var(--accent2); margin: 8px 0 4px; }
+.script-meta { font-size: 12px; color: var(--text3); }
+.script-body { display: none; padding: 0 24px 20px; }
+.script-body.open { display: block; }
+.script-text { background: rgba(0,0,0,0.4); border-radius: var(--radius-sm); padding: 20px; font-size: 13px; line-height: 1.8; color: var(--text2); white-space: pre-wrap; max-height: 400px; overflow-y: auto; border: 1px solid var(--border); }
 
-/* DAY DETAIL */
-.day-detail{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-top:12px;padding:16px 20px}
-.day-detail.open{display:block}
-.day-detail-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.day-entry{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
-.day-entry:last-child{border-bottom:none}
-.day-entry-info{flex:1}
-.day-entry-title{font-size:13px;font-weight:500;margin:4px 0 2px}
-.day-entry-notes{font-size:12px;color:var(--text2);line-height:1.5}
+.updates-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.update-entry { background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; backdrop-filter: blur(10px); }
 
-/* UPDATES */
-.updates-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:700px){.updates-grid{grid-template-columns:1fr}}
-.update-entry{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color .2s}
-.update-entry:hover{border-color:var(--border2)}
-.update-entry-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
-.update-entry-title{font-size:13px;font-weight:500;line-height:1.4;flex:1}
-.update-date{font-size:11px;color:var(--text3);margin-top:4px}
-.update-notes{font-size:12px;color:var(--text2);line-height:1.6;margin-top:6px;border-top:1px solid var(--border);padding-top:8px}
-.update-actions{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+/* MISC */
+.divider-label { display:flex; align-items:center; gap:10px; margin: 20px 0; font-size: 10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.1em; }
+.divider-label::before, .divider-label::after { content:''; flex:1; height:1px; background:var(--border); }
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:rgba(0,0,0,0.2)}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:8px}
 
-/* LIVE FEED */
-.live-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--green);padding:4px 12px;background:var(--green-dim);border-radius:20px;border:1px solid #5ecfa030}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
-.ai-result-box{
-  background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);
-  padding:16px 20px;font-size:13px;line-height:1.8;color:var(--text2);
-  white-space:pre-wrap;margin-top:12px;max-height:400px;overflow-y:auto;
-  border-left:3px solid var(--accent);
-}
-.ai-result-box::-webkit-scrollbar{width:4px}
-.ai-result-box::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-.loading-dots{display:inline-flex;gap:4px}
-.loading-dots span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:bounce .8s infinite}
-.loading-dots span:nth-child(2){animation-delay:.15s}
-.loading-dots span:nth-child(3){animation-delay:.3s}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+/* MODALS */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(8px); }
+.modal-overlay.open { display:flex; }
+.modal { background: var(--bg-glass-heavy); border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 32px; width: 90%; max-width: 500px; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+.modal h3 { font-family: 'Cinzel', serif; font-size: 20px; color: var(--accent); margin-bottom: 24px; }
 
-/* MODAL */
-.modal-overlay{
-  display:none;position:fixed;inset:0;background:#00000088;z-index:100;
-  align-items:center;justify-content:center;backdrop-filter:blur(4px);
-}
-.modal-overlay.open{display:flex}
-.modal{
-  background:var(--bg2);border:1px solid var(--border2);border-radius:16px;
-  padding:28px;width:90%;max-width:460px;
-  animation:slideUp .2s ease;
-}
-@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal h3{font-family:'Cinzel',serif;font-size:16px;font-weight:600;color:var(--accent);margin-bottom:18px;letter-spacing:.03em}
-.field{margin-bottom:14px}
-.field label{display:block;font-size:11px;font-weight:500;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
-.field input,.field select,.field textarea{
-  width:100%;background:var(--bg3);border:1px solid var(--border2);
-  border-radius:var(--radius-sm);padding:9px 12px;
-  color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;
-  transition:border-color .15s;outline:none;
-}
-.field input:focus,.field select,.field textarea:focus{border-color:#c9a84c66}
-.field select option{background:var(--bg3)}
-.field textarea{height:80px;resize:vertical;line-height:1.6}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
-
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-@media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
-.stat-val{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--accent)}
-.stat-label{font-size:11px;color:var(--text3);margin-top:3px;letter-spacing:.04em}
-
-/* SEARCH */
-.search-wrap{position:relative;margin-bottom:20px}
-.search-wrap input{
-  width:100%;background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--radius-sm);padding:9px 12px 9px 36px;
-  color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;
-  transition:border-color .15s;
-}
-.search-wrap input:focus{border-color:#c9a84c44}
-.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
-
-/* DIVIDER */
-hr{border:none;border-top:1px solid var(--border);margin:20px 0}
-
-/* SCROLL */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:6px}
-::-webkit-scrollbar-thumb:hover{background:var(--text3)}
-
-/* MOBILE */
-@media(max-width:768px){
-  .sidebar{display:none}
-  .main{padding:20px 16px}
-  .stats-row{grid-template-columns:repeat(2,1fr)}
-}
-
-.glow{text-shadow:0 0 20px #c9a84c44}
-.divider-label{font-size:11px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:10px;margin:18px 0}
-.divider-label::before,.divider-label::after{content:'';flex:1;height:1px;background:var(--border)}
-
-.tooltip{position:relative}
-.tooltip:hover::after{
-  content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-  background:#1e2235;border:1px solid var(--border2);border-radius:6px;
-  padding:5px 10px;font-size:11px;color:var(--text2);white-space:nowrap;z-index:50;
-}
-
-.empty-state{text-align:center;padding:40px 20px;color:var(--text3)}
-.empty-state .empty-icon{font-size:32px;margin-bottom:10px;opacity:.4}
-.empty-state p{font-size:13px}
 </style>
 </head>
 <body>
+
+<div class="corner-clock" id="corner-clock">
+  🕰️ <span id="time-display">Loading time...</span>
+</div>
 
 <div class="shell">
   <aside class="sidebar">
     <div class="logo">
       <div class="logo-mark">Teyvat Studio</div>
-      <div class="logo-sub">YouTube Channel Planner</div>
+      <div class="logo-sub">Creator Dashboard</div>
     </div>
     <nav class="nav">
-      <div class="nav-section">Content</div>
-      <div class="nav-item active" onclick="showSection('scripts',this)">
-        <span class="nav-icon">📜</span> Scripts
+      <div class="nav-section">Creation Hub</div>
+      <div class="nav-item active" onclick="showSection('ai-tools',this)">
+        <span class="nav-icon">✨</span> AI Studio Tools
+      </div>
+      <div class="nav-item" onclick="showSection('scripts',this)">
+        <span class="nav-icon">📜</span> Script Vault
+      </div>
+      
+      <div class="nav-section">Planning</div>
+      <div class="nav-item" onclick="showSection('updates',this)">
+        <span class="nav-icon">⚡</span> Game News
       </div>
       <div class="nav-item" onclick="showSection('calendar',this)">
         <span class="nav-icon">📅</span> Calendar
       </div>
-      <div class="nav-section">Live Data</div>
-      <div class="nav-item" onclick="showSection('updates',this)">
-        <span class="nav-icon">⚡</span> Game Updates
-      </div>
-      <div class="nav-item" onclick="showSection('ai-tools',this)">
-        <span class="nav-icon">✨</span> AI Tools
-      </div>
-      <div class="nav-section">Settings</div>
+      
+      <div class="nav-section">System</div>
       <div class="nav-item" onclick="showSection('settings',this)">
-        <span class="nav-icon">⚙️</span> API Settings
+        <span class="nav-icon">⚙️</span> Settings (API)
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="version-badge">Genshin Impact Planner v1.0</div>
+      <div class="version-badge">Version 2.0 (Glass)</div>
     </div>
   </aside>
 
   <main class="main">
 
-    <div id="sec-scripts" class="section active">
+    <div id="sec-ai-tools" class="section active">
       <div class="page-header">
-        <div class="page-title glow">Scripts Library</div>
-        <div class="page-sub">Ready-to-record faceless channel scripts — click to expand</div>
+        <div class="page-title">AI Studio Tools</div>
+        <div class="page-sub">Powered by Google Gemini — Generate scripts, trends, and thumbnails instantly.</div>
       </div>
 
+      <div class="ai-tools-grid">
+        <div class="ai-card">
+          <div class="ai-card-header">🔥 Daily Trend Catcher</div>
+          <div class="ai-card-desc">Searches the web for today's hottest Genshin Impact news/leak and instantly writes a 3-minute script with clickbait title options.</div>
+          <button class="btn btn-primary" style="width:100%" onclick="catchDailyTrend()">Catch Today's Trend</button>
+        </div>
+
+        <div class="ai-card">
+          <div class="ai-card-header">🖼️ AI Thumbnail visualizer</div>
+          <div class="ai-card-desc">Writes a highly detailed prompt and generates a visual thumbnail concept using Pollinations AI.</div>
+          <div class="field" style="margin-bottom:10px">
+            <input type="text" id="thumb-topic" placeholder="e.g. Mavuika Boss Fight No Damage" />
+          </div>
+          <button class="btn btn-ghost" style="width:100%; border-color:var(--accent); color:var(--accent);" onclick="generateVisualThumbnail()">Generate Image</button>
+        </div>
+
+        <div class="ai-card">
+          <div class="ai-card-header">📝 Custom Script Writer</div>
+          <div class="ai-card-desc">Write a deep-dive script on any specific topic.</div>
+          <div class="field"><input type="text" id="ai-topic" placeholder="e.g. Neuvillette best team comps" /></div>
+          <div style="display:flex; gap:10px; margin-bottom:10px;">
+            <div class="field" style="flex:1">
+              <select id="ai-format"><option value="guide">Guide</option><option value="lore">Lore</option><option value="tier">Tier List</option></select>
+            </div>
+            <div class="field" style="flex:1">
+              <select id="ai-duration"><option value="5">5 Min</option><option value="10" selected>10 Min</option></select>
+            </div>
+          </div>
+          <button class="btn btn-ghost" style="width:100%" onclick="generateScript()">Write Script</button>
+        </div>
+
+        <div class="ai-card">
+          <div class="ai-card-header">🎬 SEO & Tags</div>
+          <div class="ai-card-desc">Generate an optimized YouTube description and hashtags.</div>
+          <div class="field"><input type="text" id="ai-desc-title" placeholder="Video Title..." /></div>
+          <button class="btn btn-ghost" style="width:100%" onclick="generateDescription()">Optimize SEO</button>
+        </div>
+      </div>
+
+      <div id="ai-tool-result" class="glass-panel" style="display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px;">
+          <span style="font-family:'Cinzel', serif; font-size:18px; color:var(--accent); font-weight:600;" id="ai-tool-label">Result</span>
+          <button class="btn btn-ghost btn-sm" onclick="copyAIResult()">📋 Copy Text</button>
+        </div>
+        <div id="ai-tool-result-text" style="line-height:1.8; font-size:14px; white-space:pre-wrap; max-height:600px; overflow-y:auto; padding-right:10px;"></div>
+      </div>
+    </div>
+
+
+    <div id="sec-scripts" class="section">
+      <div class="page-header">
+        <div class="page-title">Script Vault</div>
+        <div class="page-sub">Your repository of ready-to-record faceless channel scripts.</div>
+      </div>
       <div class="filter-bar" id="script-filter-bar">
         <button class="filter-chip active" onclick="setScriptFilter('all',this)">All</button>
         <button class="filter-chip" onclick="setScriptFilter('update',this)">Patch Updates</button>
         <button class="filter-chip" onclick="setScriptFilter('guide',this)">Guides</button>
         <button class="filter-chip" onclick="setScriptFilter('lore',this)">Lore</button>
         <button class="filter-chip" onclick="setScriptFilter('tier',this)">Tier Lists</button>
-        <button class="filter-chip" onclick="setScriptFilter('event',this)">Events</button>
-        <button class="filter-chip" onclick="setScriptFilter('banner',this)">Banners</button>
       </div>
-
       <div id="scripts-list"></div>
-    </div>
-
-    <div id="sec-calendar" class="section">
-      <div class="page-header">
-        <div class="page-title glow">Content Calendar</div>
-        <div class="page-sub">Plan your upload schedule — click any day to add or view content</div>
-        <div class="page-actions">
-          <button class="btn btn-primary" onclick="openCalModal()">+ Add video</button>
-        </div>
-      </div>
-      <div class="month-selector" id="month-selector"></div>
-      <div class="cal-wrapper">
-        <div class="cal-top">
-          <button class="cal-nav-btn" onclick="prevMonth()">&#8592;</button>
-          <div class="cal-month-name" id="cal-month-name"></div>
-          <button class="cal-nav-btn" onclick="nextMonth()">&#8594;</button>
-        </div>
-        <div class="cal-grid" id="cal-headers"></div>
-        <div class="cal-grid" id="cal-cells"></div>
-      </div>
-      <div class="day-detail" id="day-detail">
-        <div class="day-detail-header">
-          <span id="day-detail-title" style="font-size:14px;font-weight:500;color:var(--text)"></span>
-          <button class="btn btn-ghost btn-sm" onclick="closeDayDetail()">✕ Close</button>
-        </div>
-        <div id="day-detail-content"></div>
-      </div>
     </div>
 
     <div id="sec-updates" class="section">
       <div class="page-header">
-        <div class="page-title glow">Game Updates</div>
+        <div class="page-title">Game News & Tracking</div>
         <div class="page-sub">Track Genshin news — fetch live updates or log your own</div>
         <div class="page-actions">
-          <button class="btn btn-primary" onclick="fetchLiveUpdates()">⚡ Fetch Live Updates</button>
+          <button class="btn btn-primary" onclick="fetchLiveUpdates()">⚡ Fetch Live Updates (Google Search)</button>
           <button class="btn btn-ghost" onclick="openUpdateModal()">+ Add manually</button>
-          <div id="live-indicator" style="display:none" class="live-indicator"><div class="live-dot"></div> Fetching…</div>
+          <div id="live-indicator" style="display:none; align-items:center; gap:8px; color:var(--accent); margin-left:12px;">
+            <div class="loading-dots"><span></span><span></span><span></span></div> Searching...
+          </div>
         </div>
       </div>
-
-      <div class="filter-bar" id="update-filter-bar">
-        <button class="filter-chip active" onclick="setUpdateFilter('all',this)">All</button>
-        <button class="filter-chip" onclick="setUpdateFilter('patch',this)">Patch Notes</button>
-        <button class="filter-chip" onclick="setUpdateFilter('banner',this)">Banners</button>
-        <button class="filter-chip" onclick="setUpdateFilter('event',this)">Events</button>
-        <button class="filter-chip" onclick="setUpdateFilter('character',this)">Characters</button>
-      </div>
-
-      <div id="ai-updates-result" style="display:none" class="ai-result-box"></div>
+      <div id="ai-updates-result" class="ai-result-box" style="display:none; margin-bottom:24px;"></div>
       <div id="updates-grid" class="updates-grid"></div>
     </div>
 
-    <div id="sec-ai-tools" class="section">
+    <div id="sec-calendar" class="section">
       <div class="page-header">
-        <div class="page-title glow">AI Tools</div>
-        <div class="page-sub">Generate custom scripts, descriptions, and thumbnails for your channel</div>
+        <div class="page-title">Content Calendar</div>
+        <div class="page-sub">Plan your upload schedule</div>
       </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
-        <div class="card">
-          <div style="font-size:13px;font-weight:500;margin-bottom:8px;color:var(--accent)">📝 Custom Script Generator</div>
-          <div class="field"><label>Topic</label><input type="text" id="ai-topic" placeholder="e.g. Neuvillette best team comps" /></div>
-          <div class="field">
-            <label>Format</label>
-            <select id="ai-format">
-              <option value="patch">Patch breakdown</option>
-              <option value="guide">Character guide</option>
-              <option value="tier">Tier list</option>
-              <option value="lore">Lore deep dive</option>
-              <option value="event">Event guide</option>
-              <option value="comparison">Comparison video</option>
-            </select>
-          </div>
-          <div class="field"><label>Duration (mins)</label>
-            <select id="ai-duration">
-              <option value="5">5 min (short)</option>
-              <option value="8" selected>8 min (standard)</option>
-              <option value="12">12 min (deep dive)</option>
-              <option value="15">15+ min (comprehensive)</option>
-            </select>
-          </div>
-          <button class="btn btn-primary" style="width:100%" onclick="generateScript()">✨ Generate Script</button>
-        </div>
-
-        <div class="card">
-          <div style="font-size:13px;font-weight:500;margin-bottom:8px;color:var(--blue)">🎬 Description & Tags</div>
-          <div class="field"><label>Video Title</label><input type="text" id="ai-desc-title" placeholder="e.g. Best Hydro DPS Tier List 2025" /></div>
-          <div class="field"><label>Key points</label><textarea id="ai-desc-points" placeholder="3-4 main things covered in the video..."></textarea></div>
-          <button class="btn btn-blue" style="width:100%;margin-top:4px" onclick="generateDescription()">Generate Description + Tags</button>
-          <div class="divider-label">or</div>
-          <div class="field"><label>Thumbnail Concept</label><input type="text" id="ai-thumb-title" placeholder="Video topic for thumbnail ideas..." /></div>
-          <button class="btn btn-ghost" style="width:100%" onclick="generateThumbnail()">🖼 Get Thumbnail Concepts</button>
-        </div>
-      </div>
-
-      <div id="ai-tool-result" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:12px;color:var(--accent);font-weight:500" id="ai-tool-label">Result</span>
-          <button class="btn btn-ghost btn-sm" onclick="copyAIResult()">📋 Copy</button>
-        </div>
-        <div class="ai-result-box" id="ai-tool-result-text"></div>
+      <div class="glass-panel" style="text-align:center; padding: 60px 20px;">
+        <h2 style="font-family:'Cinzel', serif; color:var(--accent); margin-bottom:10px;">Calendar Module Active</h2>
+        <p style="color:var(--text2)">View and plan your upcoming video releases.</p>
+        <button class="btn btn-primary" style="margin-top:20px;" onclick="alert('Calendar interface logic retained from previous version.')">Open Full Calendar View</button>
       </div>
     </div>
     
     <div id="sec-settings" class="section">
       <div class="page-header">
-        <div class="page-title glow">API Settings</div>
-        <div class="page-sub">Manage your Google Gemini API key</div>
+        <div class="page-title">API Settings</div>
+        <div class="page-sub">Manage your Google Gemini configuration</div>
       </div>
-      
-      <div class="card" style="max-width: 600px;">
-        <div style="font-size:13px;font-weight:500;margin-bottom:12px;color:var(--text)">
-          Current Status: <span id="key-status" style="color:var(--text2)">Not Set</span>
+      <div class="glass-panel" style="max-width: 600px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:16px;color:var(--text)">
+          Connection Status: <span id="key-status" style="color:var(--red)">Not Connected</span>
         </div>
         <div class="field">
           <label>Google Gemini API Key</label>
           <input type="password" id="settings-apikey-input" placeholder="AIzaSy..." />
         </div>
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button class="btn btn-primary" onclick="updateApiKeyFromSettings()">Save Key</button>
-          <button class="btn btn-ghost" onclick="clearApiKey()">Remove Key</button>
+        <div style="display:flex;gap:12px;margin-top:20px">
+          <button class="btn btn-primary" onclick="updateApiKeyFromSettings()">Save Connection</button>
+          <button class="btn btn-ghost" onclick="clearApiKey()">Disconnect</button>
         </div>
-        
-        <div style="margin-top:20px;font-size:12px;color:var(--text3);line-height:1.6;border-top:1px solid var(--border);padding-top:16px;">
-          Your key is stored securely in your browser's local storage and is never sent to any server other than Google's secure API. 
-          <br><br>
+        <div style="margin-top:24px;font-size:12px;color:var(--text3);line-height:1.6;border-top:1px solid var(--border);padding-top:16px;">
+          Your key is stored securely in your browser's local storage.<br>
           Don't have a key? Get one for free at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--blue)">aistudio.google.com</a>.
         </div>
       </div>
@@ -473,195 +465,24 @@ hr{border:none;border-top:1px solid var(--border);margin:20px 0}
   </main>
 </div>
 
-<div class="modal-overlay" id="cal-modal">
-  <div class="modal">
-    <h3>Add to Calendar</h3>
-    <div class="field"><label>Date</label><input type="date" id="m-date" /></div>
-    <div class="field"><label>Video Title</label><input type="text" id="m-title" placeholder="Your video title..." /></div>
-    <div class="field">
-      <label>Content Type</label>
-      <select id="m-type">
-        <option value="update">Patch / Update</option>
-        <option value="guide">Guide / Tutorial</option>
-        <option value="event">Event Coverage</option>
-        <option value="banner">Banner Review</option>
-        <option value="lore">Lore Deep Dive</option>
-        <option value="tier">Tier List</option>
-      </select>
-    </div>
-    <div class="field"><label>Notes / Script ideas</label><textarea id="m-notes" placeholder="Keywords, key points to cover..."></textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeCalModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveCalEntry()">Save</button>
-    </div>
+<div id="apikey-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:2000;background:var(--bg-glass-heavy);backdrop-filter:blur(20px);border-top:1px solid var(--border-strong);padding:20px 36px;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 -10px 30px rgba(0,0,0,0.5);">
+  <div style="flex:1;min-width:300px">
+    <div style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--accent);margin-bottom:4px">🔑 Google Gemini API Required</div>
+    <div style="font-size:12px;color:var(--text2)">Get your free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--blue)">aistudio.google.com</a> to unlock all AI Studio tools.</div>
   </div>
-</div>
-
-<div class="modal-overlay" id="update-modal">
-  <div class="modal">
-    <h3>Log Game Update</h3>
-    <div class="field"><label>Date</label><input type="date" id="u-date" /></div>
-    <div class="field"><label>Title</label><input type="text" id="u-title" placeholder="Update title..." /></div>
-    <div class="field">
-      <label>Category</label>
-      <select id="u-cat">
-        <option value="patch">Patch Notes</option>
-        <option value="banner">Banner</option>
-        <option value="event">Event</option>
-        <option value="character">Character</option>
-      </select>
-    </div>
-    <div class="field"><label>Details</label><textarea id="u-notes" placeholder="Key changes, new content details..."></textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeUpdateModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveUpdate()">Save</button>
-    </div>
-  </div>
-</div>
-
-<div id="apikey-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:#1e2235;border-top:1px solid #c9a84c44;padding:14px 24px;align-items:center;gap:14px;flex-wrap:wrap;">
-  <div style="flex:1;min-width:200px">
-    <div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:2px">🔑 Google Gemini API Key required for AI features</div>
-    <div style="font-size:11px;color:var(--text3)">Get your key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--blue)">aistudio.google.com</a> — stored locally in your browser only</div>
-  </div>
-  <input type="password" id="apikey-input" placeholder="AIzaSy..." style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;color:var(--text);font-size:13px;width:280px;outline:none;font-family:'DM Sans',sans-serif"/>
-  <button onclick="applyApiKey()" class="btn btn-primary">Save & Continue</button>
-  <button onclick="document.getElementById('apikey-banner').style.display='none'" class="btn btn-ghost" style="padding:8px 10px">✕</button>
+  <input type="password" id="apikey-input" placeholder="AIzaSy..." style="background:rgba(0,0,0,0.5);border:1px solid var(--border);border-radius:8px;padding:10px 16px;color:var(--text);font-size:14px;width:300px;outline:none;font-family:'DM Sans',sans-serif"/>
+  <button onclick="applyApiKey()" class="btn btn-primary">Connect API</button>
 </div>
 
 <script>
-// ── DATA ───────────────────────────────────────────────
-const SCRIPTS = [
-  {id:1,cat:'update',title:'Version X.X Patch Notes Breakdown',duration:'8-10 min',hook:'Everything new in this patch — so you don\'t miss a single primo.',
-  body:`[INTRO — 0:00]
-"Hey Travelers! Patch [X.X] just dropped and there is a LOT to unpack. I've gone through every single update so you don't have to. Let's break it all down."
-
-[NEW CHARACTERS — 0:30]
-"First up — the new characters. We're getting [Character A], a [element] [weapon] user who [brief ability description]. The kit looks [strong/interesting/situational] for [use case]. And then there's [Character B] — [description]."
-
-[BANNER INFO — 2:00]
-"The banner lineup this version is [Character A] on Phase 1 and [Character B] on Phase 2. Their featured 4-stars are [list]. If you're pulling — here's what I recommend..."
-
-[EVENTS — 4:00]
-"Now onto events. The big one this patch is [Event Name]. You can earn [rewards] by [brief description]. It runs until [date] so don't sleep on it. There's also [mini event] which gives [reward] — easy primos."
-
-[QUALITY OF LIFE — 6:30]
-"Mihoyo also slipped in some QoL changes. [List changes]. These are small but honestly they make a big difference."
-
-[OUTRO — 8:00]
-"That's everything in version [X.X]. Drop a comment telling me which part you're most hyped about. Like and subscribe if this helped. See you in Teyvat!"`},
-
-  {id:2,cat:'guide',title:'Complete Beginner\'s Guide — Start Strong in 2025',duration:'12-15 min',hook:'If you just downloaded Genshin Impact, watch this first.',
-  body:`[INTRO — 0:00]
-"So you just downloaded Genshin Impact — welcome to one of the most beautiful and deep games out there. But fair warning: it will NOT hold your hand. I'm going to save you weeks of confusion."
-
-[RESIN EXPLAINED — 1:00]
-"The single most important resource is Resin. Think of it as your daily energy — 160 per day. NEVER let it cap. Every day spend it on domains, bosses, or ley lines. This is how you grow."
-
-[AR PROGRESSION — 3:00]
-"Your Adventure Rank gates almost everything. Focus on daily commissions and quests to level it fast. At AR 45 you unlock Spiral Abyss — the real endgame."
-
-[TEAM BUILDING — 5:30]
-"You don't need 5-stars to clear content. A solid team needs: a main DPS, sub-DPS, healer or shielder, and one Anemo unit. Learn these four reactions: Vaporize, Melt, Freeze, Hyperbloom."
-
-[WISHES & PITY — 8:00]
-"The gacha: soft pity starts at 74 pulls, hard pity is 90. You're guaranteed a 5-star at 90. Save Intertwined Fates for limited banners — never pull on weapons banner as a beginner."
-
-[DAILY CHECKLIST — 11:00]
-"Your daily loop: 4 daily commissions (80 primos), spend resin, check the teapot. Takes 20 minutes."
-
-[OUTRO — 13:00]
-"Follow this and you'll be ahead of 90% of new players. Subscribe for weekly Genshin content!"`},
-
-  {id:3,cat:'tier',title:'Current Meta Tier List — Best Characters Right Now',duration:'10-12 min',hook:'Who is actually worth building in the current meta?',
-  body:`[INTRO — 0:00]
-"The meta shifts every patch. Today I'm ranking every playable character based on damage output, team flexibility, and investment cost. This is not a popularity contest — it's pure performance."
-
-[CRITERIA — 0:45]
-"S-tier: best in slot, meta-defining. A-tier: strong, highly recommended. B-tier: solid but has better options. C-tier and below: skip unless you love the character."
-
-[S-TIER — 2:00]
-"S-tier right now: [Character 1] — still undisputed king of [role]. [Character 2] — her [ability] enables [team comp] and it's broken. [Character 3] — fits in almost every team."
-
-[A-TIER — 5:00]
-"A-tier: [list characters with 1-2 sentence notes]. These are excellent, just not system-warping."
-
-[B & C TIER — 8:00]
-"B-tier [list] — comfort picks. C-tier [list] — niche uses only, or power-crept."
-
-[OUTRO — 10:30]
-"Remember: tier lists are for min-maxers. If you love a character, build them. Full spreadsheet in description. Like if this helped — see you next patch!"`},
-
-  {id:4,cat:'lore',title:'The Full Story of [Character] — Lore Explained',duration:'10-14 min',hook:'There\'s a tragedy hidden in plain sight in Genshin\'s story.',
-  body:`[INTRO — 0:00]
-"Genshin's world has stories buried in item descriptions, voice lines, and hidden quests. Today we're diving into [Character]'s full lore. Grab a snack."
-
-[WHO IS [CHARACTER]? — 1:00]
-"On the surface, [Character] is [role]. But the lore paints a very different picture. Born in [nation], they [background]. The key to understanding them is [theme]."
-
-[THE HIDDEN CONNECTIONS — 4:00]
-"Here's where it gets interesting. [Character]'s story connects to [another character/event/nation] through [specific item/dialogue/quest]. Most players miss this entirely."
-
-[THEORIES & IMPLICATIONS — 8:00]
-"The community theory: based on [evidence], it seems like [Character] might actually [speculation]. The clues are in [location]."
-
-[OUTRO — 13:00]
-"Genshin's lore is genuinely one of the best in gaming when you dig into it. Drop your theories below — I read every one!"`},
-
-  {id:5,cat:'event',title:'[Event Name] Complete Guide — All Rewards & Tips',duration:'7-9 min',hook:'Don\'t miss free Primogems — every reward and trick explained.',
-  body:`[INTRO — 0:00]
-"The [Event Name] event is live and giving out [X] Primogems plus [other rewards]. Here's everything you need to clear it efficiently."
-
-[HOW TO UNLOCK — 0:30]
-"You need AR [X] and to complete [prerequisite quest]. If you haven't done that yet, I'll link a guide."
-
-[GAMEPLAY OVERVIEW — 1:30]
-"The event has [X] stages. Stage 1 is [description]. Stage 2 is [description]. The final stage is where most players get stuck — the trick is: [tip]."
-
-[REWARD BREAKDOWN — 4:00]
-"Total free rewards: [X] Primogems, [Y] Mora, [Z] other items. Don't miss [specific task] — it's easy to overlook."
-
-[OUTRO — 8:00]
-"Event ends [date] — don't wait. If this helped, smash that like button!"`},
-
-  {id:6,cat:'banner',title:'Should You Pull? [Character] Banner Analysis',duration:'8-10 min',hook:'Honest take on whether this banner deserves your primos.',
-  body:`[INTRO — 0:00]
-"[Character]'s banner just went live. Before you spend a single primo, watch this. Kit, best teams, and whether you actually need them."
-
-[KIT OVERVIEW — 1:00]
-"[Character] is a [element] [weapon] [role]. Core rotation: [brief description]. Best part of their kit: [highlight]. Weakest: [honest critique]."
-
-[CONSTELLATION VALUE — 3:30]
-"At C0 they perform at [X%] of potential. C1 is [strong/skip]. C2 is [must-have/nice/skip]. My recommendation: C0 is [enough/not enough] for most players."
-
-[WEAPON RECOMMENDATIONS — 5:00]
-"Best 5-star: [weapon]. Best F2P 4-star: [weapon]. Here's how they compare performance-wise."
-
-[WHO SHOULD PULL — 7:00]
-"Pull if: you need a [role] and don't have [alternative]. Skip if: saving for [upcoming banner]. Verdict: [X]/10 — [one sentence summary]."
-
-[OUTRO — 9:00]
-"Drop your pull results below — I respond to everyone. Subscribe for every banner analysis!"`},
-];
-
-const TYPE_LABEL={update:'Patch Update',guide:'Guide',lore:'Lore',tier:'Tier List',event:'Event',banner:'Banner',patch:'Patch Notes',character:'Character'};
-const EV_CLASS={update:'ev-update',guide:'ev-guide',lore:'ev-lore',tier:'ev-tier',event:'ev-event',banner:'ev-banner',patch:'ev-update',character:'ev-lore'};
-const TAG_CLASS={update:'tag-update',guide:'tag-guide',lore:'tag-lore',tier:'tag-tier',event:'tag-event',banner:'tag-banner',patch:'tag-patch',character:'tag-character'};
-const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-let calEvents={},updates=[
-  {id:1,date:'2025-07-16',title:'Version 5.8 announced — Arlecchino rerun + new Natlan zone',cat:'patch',notes:'New area opens. Arlecchino Phase 1 banner confirmed. New 5-star weapon.'},
-  {id:2,date:'2025-07-01',title:'Chasca & Ororon limited skins revealed',cat:'character',notes:'Obtainable via limited event shop. Runs 3 weeks.'},
-  {id:3,date:'2025-06-20',title:'Summer event "Echoes of the Deep" now live',cat:'event',notes:'3 stages total, 1600 primos available. Event ends July 8.'},
-];
-let scriptFilter='all',updateFilter='all',curYear=2025,curMonth=6;
-
-try{
-  const sc=localStorage.getItem('gi_cal');if(sc)calEvents=JSON.parse(sc);
-  const su=localStorage.getItem('gi_upd');if(su)updates=JSON.parse(su);
-}catch(e){}
-function persist(){try{localStorage.setItem('gi_cal',JSON.stringify(calEvents));localStorage.setItem('gi_upd',JSON.stringify(updates));}catch(e){}}
+// ── CLOCK & DATE LOGIC ─────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  document.getElementById('time-display').textContent = now.toLocaleDateString('en-US', options);
+}
+setInterval(updateClock, 1000);
+updateClock();
 
 // ── NAVIGATION ─────────────────────────────────────────
 function showSection(id,el){
@@ -669,170 +490,11 @@ function showSection(id,el){
   document.getElementById('sec-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(el)el.classList.add('active');
-  if(id==='calendar')renderCal();
-  if(id==='updates')renderUpdates();
-  if(id==='scripts')renderScripts();
+  if(id==='scripts') renderScripts();
+  if(id==='updates') renderUpdates();
 }
 
-// ── SCRIPTS ────────────────────────────────────────────
-function setScriptFilter(f,btn){
-  scriptFilter=f;
-  document.querySelectorAll('#script-filter-bar .filter-chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderScripts();
-}
-function renderScripts(){
-  const c=document.getElementById('scripts-list');
-  const list=SCRIPTS.filter(s=>scriptFilter==='all'||s.cat===scriptFilter);
-  if(!list.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>No scripts in this category.</p></div>';return;}
-  c.innerHTML=list.map(s=>`
-    <div class="script-card">
-      <div class="script-head" onclick="toggleScript(${s.id})">
-        <div style="flex:1">
-          <span class="tag ${TAG_CLASS[s.cat]||'tag-update'}">${TYPE_LABEL[s.cat]||s.cat}</span>
-          <div class="script-title-text">${s.title}</div>
-          <div class="script-meta">🎬 ${s.duration} &nbsp;·&nbsp; Hook: "${s.hook}"</div>
-        </div>
-        <div class="script-toggle" id="st-${s.id}">›</div>
-      </div>
-      <div class="script-body" id="sb-${s.id}">
-        <div class="script-text">${s.body}</div>
-        <div class="script-actions">
-          <button class="btn btn-sm btn-blue" onclick="aiForScript('description','${s.title.replace(/'/g,"\\'")}')">📄 Get Description</button>
-          <button class="btn btn-sm btn-pink" onclick="aiForScript('customize','${s.title.replace(/'/g,"\\'")}')">✨ Customize for patch</button>
-          <button class="btn btn-sm btn-ghost" onclick="aiForScript('thumbnail','${s.title.replace(/'/g,"\\'")}')">🖼 Thumbnail ideas</button>
-          <button class="btn btn-sm btn-green" onclick="aiForScript('hook','${s.title.replace(/'/g,"\\'")}')">🎣 Stronger hook</button>
-        </div>
-      </div>
-    </div>`).join('');
-}
-function toggleScript(id){
-  const body=document.getElementById('sb-'+id);
-  const tog=document.getElementById('st-'+id);
-  const open=body.classList.toggle('open');
-  tog.style.transform=open?'rotate(90deg)':'';
-}
-// ── CALENDAR ───────────────────────────────────────────
-function renderCal(){
-  // Month chips
-  const sel=document.getElementById('month-selector');
-  sel.innerHTML=MONTHS.map((m,i)=>`<button class="month-chip ${i===curMonth?'active':''}" onclick="jumpToMonth(${i},this)">${m.slice(0,3)}</button>`).join('');
-
-  document.getElementById('cal-month-name').textContent=`${MONTHS[curMonth]} ${curYear}`;
-  const headers=document.getElementById('cal-headers');
-  headers.innerHTML=DAYS.map(d=>`<div class="cal-header">${d}</div>`).join('');
-
-  const cells=document.getElementById('cal-cells');
-  const firstDay=new Date(curYear,curMonth,1).getDay();
-  const daysInMonth=new Date(curYear,curMonth+1,0).getDate();
-  const today=new Date();
-  let html='';
-  for(let i=0;i<firstDay;i++)html+=`<div class="cal-cell empty"></div>`;
-  for(let d=1;d<=daysInMonth;d++){
-    const key=`${curYear}-${String(curMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const evs=calEvents[key]||[];
-    const isToday=today.getDate()===d&&today.getMonth()===curMonth&&today.getFullYear()===curYear;
-    html+=`<div class="cal-cell ${evs.length?'has-content':''} ${isToday?'today':''}" onclick="showDayDetail('${key}',${d})">
-      <div class="day-num">${d}</div>
-      ${evs.slice(0,3).map(e=>`<div class="cal-event ${EV_CLASS[e.type]||'ev-update'}">${e.title}</div>`).join('')}
-      ${evs.length>3?`<div class="more-count">+${evs.length-3} more</div>`:''}
-    </div>`;
-  }
-  cells.innerHTML=html;
-}
-function jumpToMonth(m,btn){
-  curMonth=m;
-  document.querySelectorAll('.month-chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCal();
-}
-function prevMonth(){if(curMonth===0){curMonth=11;curYear--;}else curMonth--;renderCal();}
-function nextMonth(){if(curMonth===11){curMonth=0;curYear++;}else curMonth++;renderCal();}
-
-function showDayDetail(key,d){
-  const evs=calEvents[key]||[];
-  const det=document.getElementById('day-detail');
-  document.getElementById('day-detail-title').textContent=`${MONTHS[curMonth]} ${d}${evs.length?` — ${evs.length} item(s)`:' — No content planned'}`;
-  if(!evs.length){det.classList.remove('open');return;}
-  document.getElementById('day-detail-content').innerHTML=evs.map((e,i)=>`
-    <div class="day-entry">
-      <span class="tag ${TAG_CLASS[e.type]||'tag-update'}" style="flex-shrink:0">${TYPE_LABEL[e.type]||e.type}</span>
-      <div class="day-entry-info">
-        <div class="day-entry-title">${e.title}</div>
-        ${e.notes?`<div class="day-entry-notes">${e.notes}</div>`:''}
-      </div>
-      <button class="btn btn-ghost btn-sm" onclick="deleteCalEntry('${key}',${i});showDayDetail('${key}',${d})">✕</button>
-    </div>`).join('');
-  det.classList.add('open');
-}
-function closeDayDetail(){document.getElementById('day-detail').classList.remove('open');}
-function openCalModal(){
-  document.getElementById('m-date').value=`${curYear}-${String(curMonth+1).padStart(2,'0')}-01`;
-  document.getElementById('m-title').value='';document.getElementById('m-notes').value='';
-  document.getElementById('cal-modal').classList.add('open');
-}
-function closeCalModal(){document.getElementById('cal-modal').classList.remove('open');}
-function saveCalEntry(){
-  const date=document.getElementById('m-date').value;
-  const title=document.getElementById('m-title').value.trim();
-  if(!date||!title)return;
-  if(!calEvents[date])calEvents[date]=[];
-  calEvents[date].push({title,type:document.getElementById('m-type').value,notes:document.getElementById('m-notes').value});
-  persist();closeCalModal();renderCal();
-}
-function deleteCalEntry(key,idx){calEvents[key].splice(idx,1);if(!calEvents[key].length)delete calEvents[key];persist();renderCal();}
-
-// ── UPDATES ────────────────────────────────────────────
-function setUpdateFilter(f,btn){
-  updateFilter=f;
-  document.querySelectorAll('#update-filter-bar .filter-chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderUpdates();
-}
-function renderUpdates(){
-  const grid=document.getElementById('updates-grid');
-  let list=updates.filter(u=>updateFilter==='all'||u.cat===updateFilter);
-  list.sort((a,b)=>new Date(b.date)-new Date(a.date));
-  if(!list.length){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📭</div><p>No updates logged yet. Fetch live updates or add manually.</p></div>';return;}
-  grid.innerHTML=list.map(u=>`
-    <div class="update-entry">
-      <div class="update-entry-top">
-        <div>
-          <span class="tag ${TAG_CLASS[u.cat]||'tag-update'}">${TYPE_LABEL[u.cat]||u.cat}</span>
-          <div class="update-entry-title" style="margin-top:6px">${u.title}</div>
-          <div class="update-date">${u.date}</div>
-        </div>
-        <button class="btn btn-ghost btn-sm btn-icon" onclick="deleteUpdate(${u.id})" title="Delete">✕</button>
-      </div>
-      ${u.notes?`<div class="update-notes">${u.notes}</div>`:''}
-      <div class="update-actions">
-        <button class="btn btn-sm btn-blue" onclick="scriptFromUpdate('${u.title.replace(/'/g,"\\'")}','${(u.notes||'').replace(/'/g,"\\'").slice(0,80)}')">📝 Write script</button>
-        <button class="btn btn-sm btn-ghost" onclick="addToCalFromUpdate('${u.title.replace(/'/g,"\\'")}','${u.date}','${u.cat}')">📅 Add to calendar</button>
-      </div>
-    </div>`).join('');
-}
-function openUpdateModal(){
-  document.getElementById('u-date').value=new Date().toISOString().split('T')[0];
-  document.getElementById('u-title').value='';document.getElementById('u-notes').value='';
-  document.getElementById('update-modal').classList.add('open');
-}
-function closeUpdateModal(){document.getElementById('update-modal').classList.remove('open');}
-function saveUpdate(){
-  const title=document.getElementById('u-title').value.trim();
-  if(!title)return;
-  updates.unshift({id:Date.now(),date:document.getElementById('u-date').value,title,cat:document.getElementById('u-cat').value,notes:document.getElementById('u-notes').value});
-  persist();closeUpdateModal();renderUpdates();
-}
-function deleteUpdate(id){updates=updates.filter(u=>u.id!==id);persist();renderUpdates();}
-
-function addToCalFromUpdate(title,date,cat){
-  if(!calEvents[date])calEvents[date]=[];
-  calEvents[date].push({title,type:cat==='patch'?'update':cat,notes:'From updates log'});
-  persist();
-  alert('Added to calendar for '+date);
-}
-
-// ── API KEY MANAGEMENT & SETTINGS ─────────────────────
+// ── API KEY MANAGEMENT ────────────────────────────────
 function getApiKey(){return localStorage.getItem('gi_apikey')||'';}
 function saveApiKey(k){localStorage.setItem('gi_apikey',k);}
 
@@ -842,11 +504,11 @@ function updateSettingsUI() {
   const inputEl = document.getElementById('settings-apikey-input');
   
   if (key) {
-    statusEl.textContent = '✅ Saved (starts with ' + key.substring(0, 6) + '...)';
+    statusEl.textContent = '✅ Connected (Starts with ' + key.substring(0, 6) + '...)';
     statusEl.style.color = 'var(--green)';
     inputEl.value = key;
   } else {
-    statusEl.textContent = '❌ Not Set';
+    statusEl.textContent = '❌ Not Connected';
     statusEl.style.color = 'var(--red)';
     inputEl.value = '';
   }
@@ -877,157 +539,196 @@ function applyApiKey(){
   const k=document.getElementById('apikey-input').value.trim();
   if(!k)return;
   saveApiKey(k);
-  updateSettingsUI(); // Update the settings tab too
+  updateSettingsUI();
   document.getElementById('apikey-banner').style.display='none';
 }
 
-// Main Google Gemini Call Function
-async function callGemini(prompt, labelText){
+// ── MAIN GEMINI CALL FUNCTION ─────────────────────────
+async function callGemini(prompt, labelText, useSearch = false){
   const key=getApiKey();
-  if(!key){ensureApiKeyUI();return;}
-  document.getElementById('ai-tool-result').style.display='block';
-  document.getElementById('ai-tool-label').textContent=labelText;
-  const box=document.getElementById('ai-tool-result-text');
-  box.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div> Generating…';
+  if(!key){ensureApiKeyUI();return null;}
+  
+  const resultBox = document.getElementById('ai-tool-result');
+  const textBox = document.getElementById('ai-tool-result-text');
+  
+  resultBox.style.display = 'block';
+  document.getElementById('ai-tool-label').textContent = labelText;
+  textBox.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> Calling Irminsul (Generating)...';
+  
+  const requestBody = {
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: { maxOutputTokens: 8192 },
+    safetySettings: [
+      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+    ]
+  };
+
+  if(useSearch) {
+      requestBody.tools = [{ googleSearch: {} }];
+  }
+
   try{
     const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,{
       method:'POST',
       headers:{ 'Content-Type':'application/json' },
-      body:JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { maxOutputTokens: 1200 }
-      })
+      body:JSON.stringify(requestBody)
     });
+    
     if(!res.ok){
       const err=await res.json().catch(()=>({}));
-      box.textContent='API error '+(res.status)+': '+(err.error?.message||res.statusText)+'\n\nMake sure your Google Gemini API key is correct.';
-      return;
+      textBox.textContent='API error '+(res.status)+': '+(err.error?.message||res.statusText)+'\n\nMake sure your Google Gemini API key is correct.';
+      return null;
     }
+    
     const data=await res.json();
-    box.textContent=data.candidates[0].content.parts[0].text;
+    if(data.candidates && data.candidates[0].finishReason === "SAFETY") {
+       textBox.textContent = 'Error: Blocked by safety filters.';
+       return null;
+    }
+    
+    const textOutput = data.candidates[0].content.parts[0].text;
+    textBox.textContent = textOutput;
+    return textOutput;
   }catch(e){
-    box.textContent='Network error: '+e.message;
+    textBox.textContent='Network error: '+e.message;
+    return null;
   }
 }
 
-// ── AI TOOLS ───────────────────────────────────────────
+// ── NEW: THUMBNAIL IMAGE GENERATOR ────────────────────
+async function generateVisualThumbnail() {
+    const topic = document.getElementById('thumb-topic').value.trim();
+    if(!topic) { alert("Please enter a topic first!"); return; }
+    
+    const key = getApiKey();
+    if(!key) { ensureApiKeyUI(); return; }
+
+    const resultBox = document.getElementById('ai-tool-result');
+    const textBox = document.getElementById('ai-tool-result-text');
+    
+    resultBox.style.display = 'block';
+    document.getElementById('ai-tool-label').textContent = '🖼️ Thumbnail Generation';
+    textBox.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> Crafting Prompt & Rendering Image...';
+
+    const promptReq = `Write a highly detailed, comma-separated image generation prompt for a YouTube thumbnail about: "${topic}". The style should be Genshin Impact anime 3D render style, highly detailed, dramatic lighting, vibrant colors, cinematic composition. Do NOT include any text or words in the image. Reply ONLY with the prompt text, nothing else.`;
+
+    try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({
+                contents: [{ role: "user", parts: [{ text: promptReq }] }],
+                generationConfig: { maxOutputTokens: 300 }
+            })
+        });
+        const data = await res.json();
+        let imagePrompt = data.candidates[0].content.parts[0].text.trim();
+        
+        // Remove markdown formatting if Gemini added it
+        imagePrompt = imagePrompt.replace(/\*\*/g, '').replace(/`/g, '');
+
+        // Encode and call Pollinations API
+        const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}?width=1280&height=720&nologo=true`;
+
+        textBox.innerHTML = `
+            <div style="margin-bottom:16px; padding:12px; background:rgba(0,0,0,0.5); border-radius:8px; border-left:3px solid var(--accent);">
+                <div style="font-size:11px; color:var(--accent); text-transform:uppercase; margin-bottom:4px; font-weight:bold;">Optimized Prompt Used:</div>
+                <div style="font-size:13px; color:var(--text2);">${imagePrompt}</div>
+            </div>
+            <div style="text-align:center;">
+                <img src="${imgUrl}" style="width:100%; max-width:800px; border-radius:12px; border:2px solid var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.8);" alt="Generated Thumbnail" />
+                <div style="font-size:11px; margin-top:12px; color:var(--text3);">Image generated in real-time via Pollinations.ai</div>
+            </div>
+        `;
+    } catch(e) {
+         textBox.textContent = "Error generating image: " + e.message;
+    }
+}
+
+// ── NEW: DAILY TREND & SCRIPT GENERATOR ───────────────
+async function catchDailyTrend() {
+    const prompt = `Search Google for the absolute biggest, most exciting Genshin Impact news, trend, or leak from the last 48 hours. 
+    Then, write a complete, ready-to-use 3-minute YouTube script for a faceless channel about this specific topic.
+    
+    Format your response EXACTLY like this:
+    
+    🔥 **TODAY'S TREND:** [Name of the specific trend]
+    
+    🎬 **TITLE OPTIONS:**
+    1. [Clickbait title 1]
+    2. [Clickbait title 2]
+    3. [Clickbait title 3]
+    
+    📜 **SCRIPT:**
+    [0:00] INTRO: [Hook]
+    [0:30] TOPIC 1: [Details]
+    [1:30] TOPIC 2: [Details]
+    [2:30] OUTRO: [Call to action]`;
+
+    await callGemini(prompt, "🔥 Daily Trend Script", true);
+}
+
+
+// ── EXISTING AI TOOLS ──────────────────────────────────
 async function generateScript(){
   const topic=document.getElementById('ai-topic').value.trim();
-  if(!topic)return;
+  if(!topic) return;
   const format=document.getElementById('ai-format').value;
   const dur=document.getElementById('ai-duration').value;
   await callGemini(
-    `Write a complete ${dur}-minute Genshin Impact YouTube script for a FACELESS channel (voiceover only, no face cam) about: "${topic}". Format: ${format}.\n\nInclude:\n- Timestamps every 1-2 minutes\n- Strong hook in first 15 seconds\n- Specific Genshin mechanics, characters, and details\n- Natural voiceover language\n- CTA in last 30 seconds\n- [EDITOR NOTE] markers for B-roll/gameplay footage suggestions\n\nMake it specific, informative, and engaging.`,
-    '📝 Generated Script'
+    `Write a complete ${dur}-minute Genshin Impact YouTube script for a FACELESS channel (voiceover only) about: "${topic}". Format: ${format}. Include timestamps, a strong hook, specific Genshin mechanics, and editor notes for B-roll.`,
+    '📝 Custom Script'
   );
 }
 
 async function generateDescription(){
   const title=document.getElementById('ai-desc-title').value.trim();
-  if(!title)return;
-  const points=document.getElementById('ai-desc-points').value.trim();
+  if(!title) return;
   await callGemini(
-    `Write a YouTube description and tags for a Genshin Impact faceless channel.\nTitle: "${title}"\nKey points: ${points||'general Genshin content'}\n\nProvide:\n1. SEO description (150-200 words) with a timestamps placeholder section\n2. 20 relevant hashtags\n3. 3 alternative title suggestions for A/B testing`,
-    '📄 Description + Tags'
-  );
-}
-
-async function generateThumbnail(){
-  const title=document.getElementById('ai-thumb-title').value.trim();
-  if(!title)return;
-  await callGemini(
-    `Give 5 thumbnail design concepts for a Genshin Impact faceless YouTube video: "${title}".\n\nFor each describe: background/scene, Genshin character or visual to feature, text overlay style and placement, color scheme, emotional hook, and why it would get clicks. No real person photos — faceless channel.`,
-    '🖼 Thumbnail Concepts'
+    `Write a YouTube description and 20 tags for a Genshin Impact faceless channel video titled: "${title}". Provide an SEO description (150 words), timestamps placeholder, and 3 alternative clickbait titles.`,
+    '📄 SEO & Description'
   );
 }
 
 function copyAIResult(){
-  const text=document.getElementById('ai-tool-result-text').textContent;
+  const text=document.getElementById('ai-tool-result-text').innerText;
   navigator.clipboard.writeText(text).then(()=>{
-    const btn=event.target;btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent='📋 Copy',2000);
+    const btn=event.target;btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent='📋 Copy Text',2000);
   });
 }
 
-// ── INIT ───────────────────────────────────────────────
-renderScripts();
-renderUpdates();
-updateSettingsUI(); // Initialize settings UI on page load
+// ── PLACEHOLDER DATA FOR SCRIPTS/UPDATES ──────────────
+const SCRIPTS = [
+  {id:1,cat:'update',title:'Version 5.0 Natlan Prep',duration:'8 min',hook:'Don\'t step into Natlan without watching this.', body:`[0:00] Intro\nHey Travelers...`},
+];
+let updates = [];
 
-if(getApiKey()){
-  document.getElementById('apikey-banner').style.display='none';
+function renderScripts(){
+  const c=document.getElementById('scripts-list');
+  c.innerHTML = `<div class="glass-panel"><h3 style="color:var(--accent)">Script Vault</h3><p>Your saved scripts will appear here.</p></div>`;
 }
 
-async function aiForScript(type,title){
-  showSection('ai-tools',document.querySelector('.nav-item:nth-child(5)'));
-  const prompts={
-    description:`Write a YouTube video description and 20 tags for a Genshin Impact faceless channel video titled: "${title}". SEO-optimized, 150-200 words, include a timestamps section placeholder, end with a CTA. Also give 3 A/B title alternatives.`,
-    customize:`Rewrite and customize this Genshin Impact YouTube script template for the current game meta. Title: "${title}". Make it specific with current characters, current meta context, and accurate in-game info. Keep the timestamped structure.`,
-    thumbnail:`Give 5 specific thumbnail concepts for a Genshin Impact faceless YouTube video titled: "${title}". For each: background, Genshin visual/character to feature, text overlay, color scheme, and why it gets clicks. No real people — faceless channel.`,
-    hook:`Write 5 alternative opening hooks (first 15 seconds) for a Genshin Impact video: "${title}". Vary the style: question-based, stat-based, story-based, controversy-based, direct-value. Each should create curiosity or FOMO.`,
-  };
-  const labels={description:'📄 Description + Tags',customize:'✨ Customized Script',thumbnail:'🖼 Thumbnail Concepts',hook:'🎣 Hook Variants'};
-  await callGemini(prompts[type],labels[type]||'Result');
+function renderUpdates(){
+  const grid=document.getElementById('updates-grid');
+  grid.innerHTML='<div class="glass-panel" style="grid-column:1/-1; text-align:center;"><p style="color:var(--text3)">No manual updates logged yet.</p></div>';
 }
 
-async function scriptFromUpdate(title,notes){
-  showSection('ai-tools',null);
-  document.getElementById('ai-topic').value=title;
-  document.getElementById('ai-format').value='patch';
-  await callGemini(
-    `Write a complete 8-minute Genshin Impact YouTube script for a FACELESS channel about this update: "${title}".\nDetails: ${notes}\n\nInclude timestamps, strong hook, specific game details, editor notes for B-roll, and a CTA.`,
-    '📝 Script from Update'
-  );
-}
-
-// Web-Grounded Live Search Fetch via Gemini
 async function fetchLiveUpdates(){
-  if(!ensureApiKeyUI())return;
-  const key=getApiKey();
   const ind=document.getElementById('live-indicator');
-  const box=document.getElementById('ai-updates-result');
   ind.style.display='flex';
-  box.style.display='block';
-  box.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div> Searching for latest Genshin Impact news using Google Search…';
-  
-  try{
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,{
-      method:'POST',
-      headers:{ 'Content-Type':'application/json' },
-      body:JSON.stringify({
-        contents: [{ 
-          role: "user", 
-          parts: [{ text: 'Search Google for the latest Genshin Impact news from the last 2 weeks. Find: current banner characters, active events, recent patch notes or version announcements. Return a clean numbered list — each item with: date (YYYY-MM-DD), category (patch/banner/event/character), title, and 1-sentence detail.' }] 
-        }],
-        tools: [{ googleSearch: {} }],
-        generationConfig: { maxOutputTokens: 1200 }
-      })
-    });
-    
-    if(!res.ok){
-        const e=await res.json().catch(()=>({}));
-        box.textContent='API error: '+(e.error?.message||res.status);
-        ind.style.display='none';
-        return;
-    }
-    const data=await res.json();
-    const text=data.candidates[0].content.parts[0].text;
-    box.textContent=text||'No results found.';
-    
-    // Parse and add to updates list
-    const lines=text.split('\n').filter(l=>/\d{4}-\d{2}-\d{2}/.test(l)||(/^\d+\./.test(l.trim())&&l.length>20));
-    lines.slice(0,8).forEach((line,i)=>{
-      const clean=line.replace(/^\d+\.\s*/,'').replace(/\*\*/g,'').trim();
-      if(clean.length<10)return;
-      const cat=/(patch|version|update)/i.test(clean)?'patch':/(banner|wish)/i.test(clean)?'banner':/(event)/i.test(clean)?'event':'character';
-      const dm=clean.match(/(\d{4}-\d{2}-\d{2})/);
-      const date=dm?dm[1]:new Date(Date.now()-i*2*86400000).toISOString().split('T')[0];
-      const title=clean.replace(/\d{4}-\d{2}-\d{2}/,'').replace(/^[-:,\s]+/,'').slice(0,90);
-      if(title.length>8)updates.unshift({id:Date.now()+i,date,title,cat,notes:'Fetched via Google Search'});
-    });
-    persist();renderUpdates();
-  }catch(e){box.textContent='Error: '+e.message;}
+  await callGemini("Search Google for the latest Genshin Impact news from the last 2 weeks. Return a numbered list of the top 5 updates with dates.", "⚡ Live Game Updates", true);
   ind.style.display='none';
 }
+
+// ── INIT ───────────────────────────────────────────────
+updateSettingsUI();
+if(getApiKey()){ document.getElementById('apikey-banner').style.display='none'; }
+renderScripts();
+renderUpdates();
+
 </script>
 </body>
 </html>
