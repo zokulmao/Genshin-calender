@@ -181,10 +181,10 @@ body::before {
 /* AI GRID SEGREGATION */
 .ai-tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Made slightly wider to fit workspace */
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 24px;
   margin-bottom: 24px;
-  align-items: start; /* Prevents cards from stretching vertically together */
+  align-items: start;
 }
 
 .ai-card {
@@ -379,7 +379,7 @@ body::before {
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="version-badge">Version 3.1 (Workspaces)</div>
+      <div class="version-badge">Version 3.2 (Stable API)</div>
     </div>
   </aside>
 
@@ -388,7 +388,7 @@ body::before {
     <div id="sec-ai-tools" class="section active">
       <div class="page-header">
         <div class="page-title">AI Studio Tools</div>
-        <div class="page-sub">Powered by Google Gemini 3 — Workspaces & History automatically saved.</div>
+        <div class="page-sub">Powered by Google Gemini — Workspaces & History automatically saved.</div>
       </div>
 
       <div class="ai-tools-grid">
@@ -557,7 +557,8 @@ body::before {
 
 <script>
 // ── GLOBALS & HISTORY STATE ────────────────────────────
-const GEMINI_MODEL = "gemini-3.0-flash"; 
+// Reverted back to the stable, widely-available 2.5 flash model to fix the 404 error
+const GEMINI_MODEL = "gemini-2.5-flash"; 
 
 let aiHistory = {
   trend: [],
