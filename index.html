@@ -334,7 +334,7 @@ body::before {
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="version-badge">Version 2.1 (Fixed API)</div>
+      <div class="version-badge">Version 3.0 (Gemini 3)</div>
     </div>
   </aside>
 
@@ -343,7 +343,7 @@ body::before {
     <div id="sec-ai-tools" class="section active">
       <div class="page-header">
         <div class="page-title">AI Studio Tools</div>
-        <div class="page-sub">Powered by Google Gemini — Generate scripts, trends, and thumbnails instantly.</div>
+        <div class="page-sub">Powered by Google Gemini 3 — Generate scripts, trends, and thumbnails instantly.</div>
       </div>
 
       <div class="ai-tools-grid">
@@ -476,8 +476,8 @@ body::before {
 
 <script>
 // ── GLOBALS ─────────────────────────────────────────────
-// Hardcoding 1.5-flash here to ensure maximum stability for all users.
-const GEMINI_MODEL = "gemini-1.5-flash"; 
+// Updated to use the new Gemini 3.0 Flash model
+const GEMINI_MODEL = "gemini-3.0-flash"; 
 
 // ── CLOCK & DATE LOGIC ─────────────────────────────────
 function updateClock() {
@@ -603,7 +603,7 @@ async function callGemini(prompt, labelText, useSearch = false){
   }
 }
 
-// ── FIXED: THUMBNAIL IMAGE GENERATOR ────────────────────
+// ── THUMBNAIL IMAGE GENERATOR ────────────────────
 async function generateVisualThumbnail() {
     const topic = document.getElementById('thumb-topic').value.trim();
     if(!topic) { alert("Please enter a topic first!"); return; }
@@ -630,7 +630,6 @@ async function generateVisualThumbnail() {
             })
         });
         
-        // This is the error check that was missing!
         if (!res.ok) {
             const err = await res.json().catch(() => ({}));
             textBox.textContent = 'API Error ' + res.status + ': ' + (err.error?.message || res.statusText) + '\n\nPlease check your API key or try again.';
@@ -639,7 +638,6 @@ async function generateVisualThumbnail() {
 
         const data = await res.json();
         
-        // Ensure the data actually exists before trying to read it
         if (!data.candidates || data.candidates.length === 0 || !data.candidates[0].content) {
             textBox.textContent = 'Error: The AI returned an empty response. It may have been blocked by a safety filter. Try a different topic.';
             return;
