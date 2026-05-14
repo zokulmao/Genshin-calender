@@ -181,9 +181,10 @@ body::before {
 /* AI GRID SEGREGATION */
 .ai-tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Made slightly wider to fit workspace */
+  gap: 24px;
   margin-bottom: 24px;
+  align-items: start; /* Prevents cards from stretching vertically together */
 }
 
 .ai-card {
@@ -198,7 +199,6 @@ body::before {
 .ai-card:hover {
   border-color: var(--accent);
   box-shadow: 0 0 20px var(--accent-dim);
-  transform: translateY(-4px);
 }
 .ai-card-header {
   font-family: 'Cinzel', serif;
@@ -212,8 +212,35 @@ body::before {
   color: var(--text3);
   margin-bottom: 20px;
   line-height: 1.5;
-  flex: 1;
 }
+
+/* WORKSPACE & TABS */
+.tool-workspace {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.workspace-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  font-size: 12px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* FORMS */
 .field { margin-bottom: 16px; width: 100%; }
@@ -232,19 +259,40 @@ body::before {
 .ai-result-box {
   background: rgba(0,0,0,0.5);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  font-size: 14px;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-size: 13px;
   line-height: 1.8;
-  color: var(--text);
+  color: var(--text2);
   white-space: pre-wrap;
-  margin-top: 20px;
-  max-height: 600px;
+  max-height: 350px;
   overflow-y: auto;
-  border-left: 4px solid var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .ai-result-box::-webkit-scrollbar { width: 6px; }
 .ai-result-box::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+/* HISTORY LIST */
+.history-item {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.history-item-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
+}
+.history-date { font-size: 11px; color: var(--accent); font-weight: 500; }
+.history-content {
+  font-size: 12px; color: var(--text2); line-height: 1.6; white-space: pre-wrap;
+  max-height: 120px; overflow: hidden; position: relative;
+}
+.history-fade {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 30px;
+  background: linear-gradient(transparent, #0b0d14);
+}
 
 /* LOADING DOTS */
 .loading-dots { display: inline-flex; gap: 4px; }
@@ -262,7 +310,7 @@ body::before {
 .section.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* OLD UI OVERRIDES TO MATCH NEW THEME (Scripts, Calendar, Updates) */
+/* OLD UI OVERRIDES TO MATCH NEW THEME */
 .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
 .filter-chip {
   padding: 8px 18px; border-radius: 20px; font-size: 12px; font-weight: 600;
@@ -285,18 +333,15 @@ body::before {
 .update-entry { background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; backdrop-filter: blur(10px); }
 
 /* MISC */
-.divider-label { display:flex; align-items:center; gap:10px; margin: 20px 0; font-size: 10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.1em; }
-.divider-label::before, .divider-label::after { content:''; flex:1; height:1px; background:var(--border); }
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:rgba(0,0,0,0.2)}
 ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:8px}
 
-/* MODALS */
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(8px); }
-.modal-overlay.open { display:flex; }
-.modal { background: var(--bg-glass-heavy); border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 32px; width: 90%; max-width: 500px; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
-.modal h3 { font-family: 'Cinzel', serif; font-size: 20px; color: var(--accent); margin-bottom: 24px; }
-
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{padding:20px 16px}
+  .ai-tools-grid{grid-template-columns: 1fr;}
+}
 </style>
 </head>
 <body>
@@ -334,7 +379,7 @@ body::before {
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="version-badge">Version 3.0 (Gemini 3)</div>
+      <div class="version-badge">Version 3.1 (Workspaces)</div>
     </div>
   </aside>
 
@@ -343,23 +388,49 @@ body::before {
     <div id="sec-ai-tools" class="section active">
       <div class="page-header">
         <div class="page-title">AI Studio Tools</div>
-        <div class="page-sub">Powered by Google Gemini 3 — Generate scripts, trends, and thumbnails instantly.</div>
+        <div class="page-sub">Powered by Google Gemini 3 — Workspaces & History automatically saved.</div>
       </div>
 
       <div class="ai-tools-grid">
+        
         <div class="ai-card">
           <div class="ai-card-header">🔥 Daily Trend Catcher</div>
-          <div class="ai-card-desc">Searches the web for today's hottest Genshin Impact news/leak and instantly writes a 3-minute script with clickbait title options.</div>
+          <div class="ai-card-desc">Searches the web for today's hottest Genshin Impact news/leak and instantly writes a script.</div>
           <button class="btn btn-primary" style="width:100%" onclick="catchDailyTrend()">Catch Today's Trend</button>
+          
+          <div class="tool-workspace" id="ws-trend">
+            <div class="workspace-tabs">
+              <button class="tab-btn active" id="tab-trend-curr" onclick="switchTab('trend','curr')">Current Result</button>
+              <button class="tab-btn" id="tab-trend-hist" onclick="switchTab('trend','hist')">History</button>
+            </div>
+            <div id="panel-trend-curr">
+              <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+                <button class="btn btn-sm btn-ghost" onclick="copyResult('box-trend')">📋 Copy</button>
+              </div>
+              <div id="box-trend" class="ai-result-box"></div>
+            </div>
+            <div id="panel-trend-hist" style="display:none; max-height:400px; overflow-y:auto;"></div>
+          </div>
         </div>
 
         <div class="ai-card">
-          <div class="ai-card-header">🖼️ AI Thumbnail visualizer</div>
-          <div class="ai-card-desc">Writes a highly detailed prompt and generates a visual thumbnail concept using Pollinations AI.</div>
+          <div class="ai-card-header">🖼️ AI Thumbnail Visualizer</div>
+          <div class="ai-card-desc">Writes a highly detailed prompt and generates a visual thumbnail concept.</div>
           <div class="field" style="margin-bottom:10px">
             <input type="text" id="thumb-topic" placeholder="e.g. Mavuika Boss Fight No Damage" />
           </div>
           <button class="btn btn-ghost" style="width:100%; border-color:var(--accent); color:var(--accent);" onclick="generateVisualThumbnail()">Generate Image</button>
+
+          <div class="tool-workspace" id="ws-thumb">
+            <div class="workspace-tabs">
+              <button class="tab-btn active" id="tab-thumb-curr" onclick="switchTab('thumb','curr')">Current Result</button>
+              <button class="tab-btn" id="tab-thumb-hist" onclick="switchTab('thumb','hist')">History</button>
+            </div>
+            <div id="panel-thumb-curr">
+              <div id="box-thumb" class="ai-result-box" style="border:none; padding:10px; background:transparent;"></div>
+            </div>
+            <div id="panel-thumb-hist" style="display:none; max-height:400px; overflow-y:auto;"></div>
+          </div>
         </div>
 
         <div class="ai-card">
@@ -375,6 +446,20 @@ body::before {
             </div>
           </div>
           <button class="btn btn-ghost" style="width:100%" onclick="generateScript()">Write Script</button>
+
+          <div class="tool-workspace" id="ws-script">
+            <div class="workspace-tabs">
+              <button class="tab-btn active" id="tab-script-curr" onclick="switchTab('script','curr')">Current Result</button>
+              <button class="tab-btn" id="tab-script-hist" onclick="switchTab('script','hist')">History</button>
+            </div>
+            <div id="panel-script-curr">
+              <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+                <button class="btn btn-sm btn-ghost" onclick="copyResult('box-script')">📋 Copy</button>
+              </div>
+              <div id="box-script" class="ai-result-box"></div>
+            </div>
+            <div id="panel-script-hist" style="display:none; max-height:400px; overflow-y:auto;"></div>
+          </div>
         </div>
 
         <div class="ai-card">
@@ -382,18 +467,23 @@ body::before {
           <div class="ai-card-desc">Generate an optimized YouTube description and hashtags.</div>
           <div class="field"><input type="text" id="ai-desc-title" placeholder="Video Title..." /></div>
           <button class="btn btn-ghost" style="width:100%" onclick="generateDescription()">Optimize SEO</button>
-        </div>
-      </div>
 
-      <div id="ai-tool-result" class="glass-panel" style="display:none;">
-        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px;">
-          <span style="font-family:'Cinzel', serif; font-size:18px; color:var(--accent); font-weight:600;" id="ai-tool-label">Result</span>
-          <button class="btn btn-ghost btn-sm" onclick="copyAIResult()">📋 Copy Text</button>
+          <div class="tool-workspace" id="ws-seo">
+            <div class="workspace-tabs">
+              <button class="tab-btn active" id="tab-seo-curr" onclick="switchTab('seo','curr')">Current Result</button>
+              <button class="tab-btn" id="tab-seo-hist" onclick="switchTab('seo','hist')">History</button>
+            </div>
+            <div id="panel-seo-curr">
+              <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+                <button class="btn btn-sm btn-ghost" onclick="copyResult('box-seo')">📋 Copy</button>
+              </div>
+              <div id="box-seo" class="ai-result-box"></div>
+            </div>
+            <div id="panel-seo-hist" style="display:none; max-height:400px; overflow-y:auto;"></div>
+          </div>
         </div>
-        <div id="ai-tool-result-text" style="line-height:1.8; font-size:14px; white-space:pre-wrap; max-height:600px; overflow-y:auto; padding-right:10px;"></div>
       </div>
     </div>
-
 
     <div id="sec-scripts" class="section">
       <div class="page-header">
@@ -414,15 +504,7 @@ body::before {
       <div class="page-header">
         <div class="page-title">Game News & Tracking</div>
         <div class="page-sub">Track Genshin news — fetch live updates or log your own</div>
-        <div class="page-actions">
-          <button class="btn btn-primary" onclick="fetchLiveUpdates()">⚡ Fetch Live Updates (Google Search)</button>
-          <button class="btn btn-ghost" onclick="openUpdateModal()">+ Add manually</button>
-          <div id="live-indicator" style="display:none; align-items:center; gap:8px; color:var(--accent); margin-left:12px;">
-            <div class="loading-dots"><span></span><span></span><span></span></div> Searching...
-          </div>
-        </div>
       </div>
-      <div id="ai-updates-result" class="ai-result-box" style="display:none; margin-bottom:24px;"></div>
       <div id="updates-grid" class="updates-grid"></div>
     </div>
 
@@ -434,7 +516,6 @@ body::before {
       <div class="glass-panel" style="text-align:center; padding: 60px 20px;">
         <h2 style="font-family:'Cinzel', serif; color:var(--accent); margin-bottom:10px;">Calendar Module Active</h2>
         <p style="color:var(--text2)">View and plan your upcoming video releases.</p>
-        <button class="btn btn-primary" style="margin-top:20px;" onclick="alert('Calendar interface logic retained from previous version.')">Open Full Calendar View</button>
       </div>
     </div>
     
@@ -475,9 +556,109 @@ body::before {
 </div>
 
 <script>
-// ── GLOBALS ─────────────────────────────────────────────
-// Updated to use the new Gemini 3.0 Flash model
+// ── GLOBALS & HISTORY STATE ────────────────────────────
 const GEMINI_MODEL = "gemini-3.0-flash"; 
+
+let aiHistory = {
+  trend: [],
+  thumb: [],
+  script: [],
+  seo: []
+};
+
+function initHistory() {
+  try {
+    const saved = localStorage.getItem('gi_ai_hist');
+    if (saved) aiHistory = JSON.parse(saved);
+  } catch(e) {}
+  ['trend','thumb','script','seo'].forEach(renderHistoryList);
+}
+
+function saveHistory() {
+  localStorage.setItem('gi_ai_hist', JSON.stringify(aiHistory));
+}
+
+function addHistory(tool, content, extra = null) {
+  aiHistory[tool].unshift({
+    id: Date.now(),
+    date: new Date().toLocaleString(),
+    content: content,
+    extra: extra
+  });
+  if(aiHistory[tool].length > 10) aiHistory[tool].pop(); // Keep last 10
+  saveHistory();
+  renderHistoryList(tool);
+}
+
+function renderHistoryList(tool) {
+  const container = document.getElementById(`panel-${tool}-hist`);
+  if(!container) return;
+  const hist = aiHistory[tool];
+  
+  if(hist.length === 0) {
+    container.innerHTML = '<div style="color:var(--text3); font-size:12px; text-align:center; padding:20px;">No history yet.</div>';
+    return;
+  }
+
+  container.innerHTML = hist.map(item => {
+    let bodyHtml = '';
+    let copyText = encodeURIComponent(item.content);
+
+    if (tool === 'thumb') {
+      bodyHtml = `
+        <div style="font-size:11px; color:var(--text2); margin-bottom:8px;">Prompt: ${item.extra}</div>
+        <img src="${item.content}" style="width:100%; border-radius:8px; border:1px solid var(--border);" />`;
+      copyText = encodeURIComponent(item.extra); // For thumb, copy prompt
+    } else {
+      const escaped = item.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      bodyHtml = `
+        <div class="history-content">
+          ${escaped}
+          <div class="history-fade"></div>
+        </div>`;
+    }
+
+    return `
+    <div class="history-item">
+       <div class="history-item-header">
+          <span class="history-date">${item.date}</span>
+          <button class="btn btn-sm btn-ghost" style="padding:2px 8px; font-size:10px;" onclick="copySpecificText('${copyText}')">Copy</button>
+       </div>
+       ${bodyHtml}
+    </div>`;
+  }).join('');
+}
+
+function copySpecificText(encoded) {
+   navigator.clipboard.writeText(decodeURIComponent(encoded)).then(()=>{
+     alert('Copied to clipboard!');
+   });
+}
+
+function copyResult(boxId) {
+  const box = document.getElementById(boxId);
+  navigator.clipboard.writeText(box.innerText).then(()=>{
+    event.target.textContent = '✅ Copied!';
+    setTimeout(()=>event.target.textContent = '📋 Copy', 2000);
+  });
+}
+
+// Workspace Tab Switcher
+function switchTab(tool, tab) {
+  document.getElementById(`panel-${tool}-curr`).style.display = (tab === 'curr') ? 'block' : 'none';
+  document.getElementById(`panel-${tool}-hist`).style.display = (tab === 'hist') ? 'block' : 'none';
+  
+  document.getElementById(`tab-${tool}-curr`).classList.toggle('active', tab === 'curr');
+  document.getElementById(`tab-${tool}-hist`).classList.toggle('active', tab === 'hist');
+}
+
+// Show Workspace
+function showWorkspace(tool) {
+  const ws = document.getElementById(`ws-${tool}`);
+  ws.style.display = 'block';
+  switchTab(tool, 'curr');
+}
+
 
 // ── CLOCK & DATE LOGIC ─────────────────────────────────
 function updateClock() {
@@ -495,7 +676,6 @@ function showSection(id,el){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(el)el.classList.add('active');
   if(id==='scripts') renderScripts();
-  if(id==='updates') renderUpdates();
 }
 
 // ── API KEY MANAGEMENT ────────────────────────────────
@@ -548,15 +728,11 @@ function applyApiKey(){
 }
 
 // ── MAIN GEMINI CALL FUNCTION ─────────────────────────
-async function callGemini(prompt, labelText, useSearch = false){
+async function callGemini(prompt, targetBoxId, useSearch = false){
   const key=getApiKey();
   if(!key){ensureApiKeyUI();return null;}
   
-  const resultBox = document.getElementById('ai-tool-result');
-  const textBox = document.getElementById('ai-tool-result-text');
-  
-  resultBox.style.display = 'block';
-  document.getElementById('ai-tool-label').textContent = labelText;
+  const textBox = document.getElementById(targetBoxId);
   textBox.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> Calling Irminsul (Generating)...';
   
   const requestBody = {
@@ -570,9 +746,7 @@ async function callGemini(prompt, labelText, useSearch = false){
     ]
   };
 
-  if(useSearch) {
-      requestBody.tools = [{ googleSearch: {} }];
-  }
+  if(useSearch) requestBody.tools = [{ googleSearch: {} }];
 
   try{
     const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`,{
@@ -603,7 +777,21 @@ async function callGemini(prompt, labelText, useSearch = false){
   }
 }
 
-// ── THUMBNAIL IMAGE GENERATOR ────────────────────
+// ── TOOL IMPLEMENTATIONS ─────────────────────────────
+
+async function catchDailyTrend() {
+    showWorkspace('trend');
+    const prompt = `Search Google for the absolute biggest, most exciting Genshin Impact news, trend, or leak from the last 48 hours. 
+    Then, write a complete, ready-to-use 3-minute YouTube script for a faceless channel about this specific topic.
+    Format your response EXACTLY like this:
+    🔥 **TODAY'S TREND:** [Name of the specific trend]
+    🎬 **TITLE OPTIONS:** (3 options)
+    📜 **SCRIPT:** (With timestamps)`;
+
+    const result = await callGemini(prompt, "box-trend", true);
+    if(result) addHistory('trend', result);
+}
+
 async function generateVisualThumbnail() {
     const topic = document.getElementById('thumb-topic').value.trim();
     if(!topic) { alert("Please enter a topic first!"); return; }
@@ -611,11 +799,8 @@ async function generateVisualThumbnail() {
     const key = getApiKey();
     if(!key) { ensureApiKeyUI(); return; }
 
-    const resultBox = document.getElementById('ai-tool-result');
-    const textBox = document.getElementById('ai-tool-result-text');
-    
-    resultBox.style.display = 'block';
-    document.getElementById('ai-tool-label').textContent = '🖼️ Thumbnail Generation';
+    showWorkspace('thumb');
+    const textBox = document.getElementById('box-thumb');
     textBox.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> Crafting Prompt & Rendering Image...';
 
     const promptReq = `Write a highly detailed, comma-separated image generation prompt for a YouTube thumbnail about: "${topic}". The style should be Genshin Impact anime 3D render style, highly detailed, dramatic lighting, vibrant colors, cinematic composition. Do NOT include any text or words in the image. Reply ONLY with the prompt text, nothing else.`;
@@ -630,25 +815,11 @@ async function generateVisualThumbnail() {
             })
         });
         
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            textBox.textContent = 'API Error ' + res.status + ': ' + (err.error?.message || res.statusText) + '\n\nPlease check your API key or try again.';
-            return;
-        }
-
+        if (!res.ok) throw new Error('API Error ' + res.status);
         const data = await res.json();
-        
-        if (!data.candidates || data.candidates.length === 0 || !data.candidates[0].content) {
-            textBox.textContent = 'Error: The AI returned an empty response. It may have been blocked by a safety filter. Try a different topic.';
-            return;
-        }
+        if (!data.candidates || !data.candidates[0].content) throw new Error('Empty response');
 
-        let imagePrompt = data.candidates[0].content.parts[0].text.trim();
-        
-        // Remove markdown formatting if Gemini added it
-        imagePrompt = imagePrompt.replace(/\*\*/g, '').replace(/`/g, '');
-
-        // Encode and call Pollinations API
+        let imagePrompt = data.candidates[0].content.parts[0].text.trim().replace(/\*\*/g, '').replace(/`/g, '');
         const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}?width=1280&height=720&nologo=true`;
 
         textBox.innerHTML = `
@@ -657,95 +828,54 @@ async function generateVisualThumbnail() {
                 <div style="font-size:13px; color:var(--text2);">${imagePrompt}</div>
             </div>
             <div style="text-align:center;">
-                <img src="${imgUrl}" style="width:100%; max-width:800px; border-radius:12px; border:2px solid var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.8);" alt="Generated Thumbnail" />
-                <div style="font-size:11px; margin-top:12px; color:var(--text3);">Image generated in real-time via Pollinations.ai</div>
+                <img src="${imgUrl}" style="width:100%; max-width:800px; border-radius:12px; border:2px solid var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.8);" />
             </div>
         `;
+        addHistory('thumb', imgUrl, imagePrompt);
     } catch(e) {
          textBox.textContent = "Error generating image: " + e.message;
     }
 }
 
-// ── DAILY TREND & SCRIPT GENERATOR ───────────────
-async function catchDailyTrend() {
-    const prompt = `Search Google for the absolute biggest, most exciting Genshin Impact news, trend, or leak from the last 48 hours. 
-    Then, write a complete, ready-to-use 3-minute YouTube script for a faceless channel about this specific topic.
-    
-    Format your response EXACTLY like this:
-    
-    🔥 **TODAY'S TREND:** [Name of the specific trend]
-    
-    🎬 **TITLE OPTIONS:**
-    1. [Clickbait title 1]
-    2. [Clickbait title 2]
-    3. [Clickbait title 3]
-    
-    📜 **SCRIPT:**
-    [0:00] INTRO: [Hook]
-    [0:30] TOPIC 1: [Details]
-    [1:30] TOPIC 2: [Details]
-    [2:30] OUTRO: [Call to action]`;
-
-    await callGemini(prompt, "🔥 Daily Trend Script", true);
-}
-
-
-// ── EXISTING AI TOOLS ──────────────────────────────────
-async function generateScript(){
+async function generateScript() {
   const topic=document.getElementById('ai-topic').value.trim();
   if(!topic) return;
   const format=document.getElementById('ai-format').value;
   const dur=document.getElementById('ai-duration').value;
-  await callGemini(
+  
+  showWorkspace('script');
+  const result = await callGemini(
     `Write a complete ${dur}-minute Genshin Impact YouTube script for a FACELESS channel (voiceover only) about: "${topic}". Format: ${format}. Include timestamps, a strong hook, specific Genshin mechanics, and editor notes for B-roll.`,
-    '📝 Custom Script'
+    'box-script'
   );
+  if(result) addHistory('script', result);
 }
 
-async function generateDescription(){
+async function generateDescription() {
   const title=document.getElementById('ai-desc-title').value.trim();
   if(!title) return;
-  await callGemini(
+  
+  showWorkspace('seo');
+  const result = await callGemini(
     `Write a YouTube description and 20 tags for a Genshin Impact faceless channel video titled: "${title}". Provide an SEO description (150 words), timestamps placeholder, and 3 alternative clickbait titles.`,
-    '📄 SEO & Description'
+    'box-seo'
   );
+  if(result) addHistory('seo', result);
 }
 
-function copyAIResult(){
-  const text=document.getElementById('ai-tool-result-text').innerText;
-  navigator.clipboard.writeText(text).then(()=>{
-    const btn=event.target;btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent='📋 Copy Text',2000);
-  });
-}
 
-// ── PLACEHOLDER DATA FOR SCRIPTS/UPDATES ──────────────
-const SCRIPTS = [
-  {id:1,cat:'update',title:'Version 5.0 Natlan Prep',duration:'8 min',hook:'Don\'t step into Natlan without watching this.', body:`[0:00] Intro\nHey Travelers...`},
-];
-let updates = [];
-
+// ── PLACEHOLDER SCRIPT VAULT ──────────────────────────────
+const SCRIPTS = [];
 function renderScripts(){
   const c=document.getElementById('scripts-list');
   c.innerHTML = `<div class="glass-panel"><h3 style="color:var(--accent)">Script Vault</h3><p>Your saved scripts will appear here.</p></div>`;
 }
 
-function renderUpdates(){
-  const grid=document.getElementById('updates-grid');
-  grid.innerHTML='<div class="glass-panel" style="grid-column:1/-1; text-align:center;"><p style="color:var(--text3)">No manual updates logged yet.</p></div>';
-}
-
-async function fetchLiveUpdates(){
-  const ind=document.getElementById('live-indicator');
-  ind.style.display='flex';
-  await callGemini("Search Google for the latest Genshin Impact news from the last 2 weeks. Return a numbered list of the top 5 updates with dates.", "⚡ Live Game Updates", true);
-  ind.style.display='none';
-}
-
 // ── INIT ───────────────────────────────────────────────
+initHistory();
 updateSettingsUI();
 if(getApiKey()){ document.getElementById('apikey-banner').style.display='none'; }
 renderScripts();
-renderUpdates();
 
 </script>
 </body>
