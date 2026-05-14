@@ -334,7 +334,7 @@ body::before {
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="version-badge">Version 2.0 (Glass)</div>
+      <div class="version-badge">Version 2.1 (Fixed API)</div>
     </div>
   </aside>
 
@@ -475,6 +475,10 @@ body::before {
 </div>
 
 <script>
+// ── GLOBALS ─────────────────────────────────────────────
+// Hardcoding 1.5-flash here to ensure maximum stability for all users.
+const GEMINI_MODEL = "gemini-1.5-flash"; 
+
 // ── CLOCK & DATE LOGIC ─────────────────────────────────
 function updateClock() {
   const now = new Date();
@@ -571,7 +575,7 @@ async function callGemini(prompt, labelText, useSearch = false){
   }
 
   try{
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`,{
       method:'POST',
       headers:{ 'Content-Type':'application/json' },
       body:JSON.stringify(requestBody)
@@ -579,13 +583,14 @@ async function callGemini(prompt, labelText, useSearch = false){
     
     if(!res.ok){
       const err=await res.json().catch(()=>({}));
-      textBox.textContent='API error '+(res.status)+': '+(err.error?.message||res.statusText)+'\n\nMake sure your Google Gemini API key is correct.';
+      textBox.textContent='API error '+(res.status)+': '+(err.error?.message||res.statusText)+'\n\nPlease check your API key.';
       return null;
     }
     
     const data=await res.json();
-    if(data.candidates && data.candidates[0].finishReason === "SAFETY") {
-       textBox.textContent = 'Error: Blocked by safety filters.';
+    
+    if(!data.candidates || data.candidates.length === 0 || !data.candidates[0].content) {
+       textBox.textContent = 'Error: The AI blocked the request or returned an empty response. Try a different topic without sensitive words.';
        return null;
     }
     
@@ -598,7 +603,7 @@ async function callGemini(prompt, labelText, useSearch = false){
   }
 }
 
-// ── NEW: THUMBNAIL IMAGE GENERATOR ────────────────────
+// ── FIXED: THUMBNAIL IMAGE GENERATOR ────────────────────
 async function generateVisualThumbnail() {
     const topic = document.getElementById('thumb-topic').value.trim();
     if(!topic) { alert("Please enter a topic first!"); return; }
@@ -616,7 +621,7 @@ async function generateVisualThumbnail() {
     const promptReq = `Write a highly detailed, comma-separated image generation prompt for a YouTube thumbnail about: "${topic}". The style should be Genshin Impact anime 3D render style, highly detailed, dramatic lighting, vibrant colors, cinematic composition. Do NOT include any text or words in the image. Reply ONLY with the prompt text, nothing else.`;
 
     try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`, {
             method:'POST',
             headers:{ 'Content-Type':'application/json' },
             body:JSON.stringify({
@@ -624,7 +629,22 @@ async function generateVisualThumbnail() {
                 generationConfig: { maxOutputTokens: 300 }
             })
         });
+        
+        // This is the error check that was missing!
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            textBox.textContent = 'API Error ' + res.status + ': ' + (err.error?.message || res.statusText) + '\n\nPlease check your API key or try again.';
+            return;
+        }
+
         const data = await res.json();
+        
+        // Ensure the data actually exists before trying to read it
+        if (!data.candidates || data.candidates.length === 0 || !data.candidates[0].content) {
+            textBox.textContent = 'Error: The AI returned an empty response. It may have been blocked by a safety filter. Try a different topic.';
+            return;
+        }
+
         let imagePrompt = data.candidates[0].content.parts[0].text.trim();
         
         // Remove markdown formatting if Gemini added it
@@ -648,7 +668,7 @@ async function generateVisualThumbnail() {
     }
 }
 
-// ── NEW: DAILY TREND & SCRIPT GENERATOR ───────────────
+// ── DAILY TREND & SCRIPT GENERATOR ───────────────
 async function catchDailyTrend() {
     const prompt = `Search Google for the absolute biggest, most exciting Genshin Impact news, trend, or leak from the last 48 hours. 
     Then, write a complete, ready-to-use 3-minute YouTube script for a faceless channel about this specific topic.
